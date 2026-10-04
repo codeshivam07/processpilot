@@ -31,8 +31,8 @@ sudo apt update && sudo apt install -y build-essential git
 
 ## Build
 ```
-git clone <THIS REPOSITORY'S URL>
-cd <repository folder name>
+git clone https://github.com/codeshivam07/processpilot.git
+cd processpilot
 make
 ```
 This produces `build/processpilot` (the daemon) and `build/ppctl` (the control client).
