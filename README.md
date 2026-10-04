@@ -6,10 +6,11 @@ exponential backoff, restarts dependents of a crashed service, and can be contro
 with the `ppctl` command over a Unix domain socket.
 
 ## Author
-- **Name:** <YOUR FULL NAME>
-- **Roll no. / Course:** <ROLL NUMBER>, <BRANCH>, ITER, Siksha 'O' Anusandhan University
-- **Project type:** Group project topic, individually submitted. Teammates: <TEAMMATE NAMES>
-- **My contribution:** <WRITE WHAT YOU PERSONALLY DID, e.g. "supervisor state machine and restart/backoff logic", "config parser and unit tests">
+
+- **Name:** Shivam Kumar
+- **Registration no. / Course:** 2341011208, B.Tech Computer Science Engineering (Batch 04), ITER, Siksha 'O' Anusandhan University
+- **Project type:** Individual project
+- **My contribution:** Designed and implemented the entire project on my own: config parser with validation, dependency graph (topological ordering), supervisor core (state machine, crash detection, restart policies, exponential backoff, restart cascade, graceful stop), Unix-socket control channel, the `ppctl` client, per-service logging, and the unit and integration tests.
 
 ## Features
 - INI config with validation (unknown/cyclic dependencies are rejected with clear errors)
