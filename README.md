@@ -5,6 +5,12 @@ their dependencies, starts them in dependency order, detects crashes, restarts t
 exponential backoff, restarts dependents of a crashed service, and can be controlled at runtime
 with the `ppctl` command over a Unix domain socket.
 
+## Author
+- **Name:** <YOUR FULL NAME>
+- **Roll no. / Course:** <ROLL NUMBER>, <BRANCH>, ITER, Siksha 'O' Anusandhan University
+- **Project type:** Group project topic, individually submitted. Teammates: <TEAMMATE NAMES>
+- **My contribution:** <WRITE WHAT YOU PERSONALLY DID, e.g. "supervisor state machine and restart/backoff logic", "config parser and unit tests">
+
 ## Features
 - INI config with validation (unknown/cyclic dependencies are rejected with clear errors)
 - Dependency-ordered start (topological sort) and reverse-order stop
@@ -25,8 +31,8 @@ sudo apt update && sudo apt install -y build-essential git
 
 ## Build
 ```
-git clone https://github.com/<your-username>/processpilot.git
-cd processpilot
+git clone <THIS REPOSITORY'S URL>
+cd <repository folder name>
 make
 ```
 This produces `build/processpilot` (the daemon) and `build/ppctl` (the control client).
@@ -55,13 +61,31 @@ kill -9 <pid of db>           # use the PID shown by status
 Validate a config without running it: `./build/processpilot --check -c examples/demo.conf`
 
 ## Config format
+Each service is a section. Example:
+```ini
+[db]
+command=sleep 100000
+restart=always
+
+[api]
+command=sleep 100001
+depends=db
+restart=on-failure
+max_restarts=5
+backoff_ms=500
 ```
-[name]                      # or [service:name]
-command=...                 # required; quotes supported; no shell
-depends=a, b
-restart=never|on-failure|always      # default on-failure
-max_restarts=5   backoff_ms=500   ready_delay_ms=0   stop_timeout_ms=3000
-```
+
+| Key | Meaning | Default |
+|---|---|---|
+| `command` | Program and arguments (quotes supported, no shell). Required | — |
+| `depends` | Comma-separated services that must be running first | none |
+| `restart` | `never`, `on-failure` or `always` | `on-failure` |
+| `max_restarts` | Consecutive restarts before the service is marked Failed | 5 |
+| `backoff_ms` | Base restart delay, doubled each time (capped at 30 s) | 500 |
+| `ready_delay_ms` | How long a service must run before dependents start | 0 |
+| `stop_timeout_ms` | Wait after `SIGTERM` before `SIGKILL` | 3000 |
+
+A section may also be written as `[service:name]`.
 
 ## Commands
 `status` · `start <svc|all>` · `stop <svc|all>` · `restart <svc|all>` · `logs [n]` · `shutdown`
